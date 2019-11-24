@@ -49,8 +49,10 @@ class AttributePlugin
         $requestParams = $request->getParams();
         $requestParams[$requestVar] = $attributeValue;
         $requestClone->setParams($requestParams);
+//        $request->setParams($requestParams);
 
         return $attributeFilter->apply($requestClone);
+//        return $attributeFilter->apply($request);
     }
 
     private function isSessionStoredSizeExists()
