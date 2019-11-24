@@ -24,13 +24,45 @@ class AttributePlugin
         $this->sessionManager = $sessionManager;
     }
 
-    public function beforeApply(AttributeFilter $subject, RequestInterface $request)
+    public function afterApply(AttributeFilter $subject, AttributeFilter $result, RequestInterface $request)
     {
-        if (!$this->isUpdateSessionStoredSizeRequired($subject, $request)) {
-            return null;
+        if (!$this->isSizeAttributeFilter($subject)) {
+            return $result;
         }
 
-        $this->updateSessionStoredSize($subject, $request);
+        if ($this->isFilterUsedInRequest($subject, $request)) {
+            $this->updateSessionStoredSize($subject, $request);
+        } elseif ($this->isSessionStoredSizeExists()) {
+            $this->applyFilterBySessionStoredSize($subject, $request);
+        }
+
+        return $result;
+    }
+
+    private function applyFilterBySessionStoredSize(AttributeFilter $attributeFilter, RequestInterface $request)
+    {
+        $attributeValue = $this->getSessionSizeValueId();
+        $requestVar = $attributeFilter->getRequestVar();
+
+        $requestClone = clone $request;
+
+        $requestParams = $request->getParams();
+        $requestParams[$requestVar] = $attributeValue;
+        $requestClone->setParams($requestParams);
+
+        return $attributeFilter->apply($requestClone);
+    }
+
+    private function isSessionStoredSizeExists()
+    {
+        $sessionSizeValueId = $this->getSessionSizeValueId();
+
+        return $sessionSizeValueId !== null;
+    }
+
+    private function getSessionSizeValueId()
+    {
+        return $this->sessionManager->getSizeValueId();
     }
 
     private function updateSessionStoredSize(AttributeFilter $attributeFilter, RequestInterface $request)
