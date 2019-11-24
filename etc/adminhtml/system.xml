@@ -7,7 +7,7 @@
 
                 <field id="size_attribute_code" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
                     <label>Size attribute</label>
-                    <source_model>Likemusic\SaveSize\Model\Config\Source\ProductAttribute\Options</source_model>
+                    <source_model>Likemusic\SaveSize\Model\Config\Source\FilterableProductAttributeOptions</source_model>
                 </field>
 
             </group>
