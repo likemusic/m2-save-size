@@ -22,7 +22,6 @@ class FilterableProductAttributeOptions implements OptionSourceInterface
         $allProductAttributes = $this->getFilterableProductAttributes();
 
         return $this->convertProductAttributesToOptionArray($allProductAttributes);
-        // TODO: Implement toOptionArray() method.
     }
 
     /**

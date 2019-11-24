@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Session -->
+    <virtualType name="Likemusic\SaveSize\Model\Session\Storage" type="Magento\Framework\Session\Storage">
+        <arguments>
+            <argument name="namespace" xsi:type="string">Likemusic_SaveSize</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Likemusic\SaveSize\Model\Session\SessionManager" type="Magento\Framework\Session\SessionManager">
+        <arguments>
+            <argument name="storage" xsi:type="object">Likemusic\SaveSize\Model\Session\Storage</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Plugin for attribute filter -->
+    <type name="Magento\CatalogSearch\Model\Layer\Filter\Attribute">
+        <plugin name="LikemusicSaveSizeAttributeFilterPlugin" type="Likemusic\SaveSize\Plugin\Magento\CatalogSearch\Model\Layer\Filter\AttributePlugin"/>
+    </type>
+
+    <preference for="Likemusic\SaveSize\Api\Model\Config\ProviderInterface" type="Likemusic\SaveSize\Model\Config\Provider"/>
+
+</config>
