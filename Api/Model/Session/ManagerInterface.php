@@ -7,4 +7,6 @@ interface ManagerInterface
     public function setSizeValueId($valueId);
 
     public function getSizeValueId();
+
+    public function unsetSizeValueId();
 }

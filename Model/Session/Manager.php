@@ -41,4 +41,11 @@ class Manager extends SessionManager implements ManagerInterface
     {
         return $this->getData(self::KEY_SIZE_VALUE_ID);
     }
+
+    public function unsetSizeValueId()
+    {
+        $this->storage[self::KEY_SIZE_VALUE_ID] = null;
+
+        return $this;
+    }
 }
