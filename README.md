@@ -7,6 +7,8 @@ Remember closing size across the site to see only relevant items.
 
 To set size attribute go to:
 - Goto Admin Panel;
+- Select "Store" menu;
+- In group "Settings" select "Configuration" item; 
 - Expand "Catalog" group on left panel;
 - Click on "Catalog" item;
 - Expand "Layered Navigation" group;

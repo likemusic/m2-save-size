@@ -25,7 +25,7 @@ define([
     }
 
     function setSwatchesAttributes(selectedAttributes) {
-        var renderers = $(':' + widgetNames);
+        var renderers = $(':' + widgetName);
 
         renderers.each(function (index, renderer) {
             var control = $(renderer).data(widgetName);
