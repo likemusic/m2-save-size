@@ -8,19 +8,9 @@ use Likemusic\SaveSize\ViewModel\SavedSizeAttribute as SavedSizeAttributeViewMod
 /** @var SavedSizeAttributeViewModel $viewModel */
 $viewModel = $block->getViewModel();
 ?>
-
-<h1>Saved Size</h1>
-
-<div class="block block-saved-size-attribute" data-bind="scope:'saved-size-attribute'" data-role="saved-size-attribute">
-    Attribute Code: <span data-bind="text: savedSizeAttribute().attribute_code"></span><br/>
-    Value Id: <span data-bind="text: savedSizeAttribute().value_id"></span><br/>
-
-    <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
-</div>
-
 <script type="text/x-magento-init">
     {
-        "[data-role=saved-size-attribute]": {
+        "*": {
             "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
         }
     }
