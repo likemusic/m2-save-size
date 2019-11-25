@@ -29,6 +29,11 @@ class AttributePlugin
 
     public function afterGetResetValue(AttributeFilter $subject, $result)
     {
+        return $this->afterGetResetOrCleanValue($subject, $result);
+    }
+
+    private function afterGetResetOrCleanValue(AttributeFilter $subject, $result)
+    {
         if (!$this->isSizeAttributeFilter($subject)) {
             return $result;
         }
@@ -52,6 +57,11 @@ class AttributePlugin
     private function getAttributeCodeByFilter(AttributeFilter $attributeFilter)
     {
         return $attributeFilter->getAttributeModel()->getAttributeCode();
+    }
+
+    public function afterGetCleanValue(AttributeFilter $subject, $result)
+    {
+        return $this->afterGetResetOrCleanValue($subject, $result);
     }
 
     public function beforeApply(AttributeFilter $subject, RequestInterface $request)
