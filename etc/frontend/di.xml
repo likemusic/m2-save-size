@@ -5,7 +5,7 @@
     <!-- Session -->
     <virtualType name="Likemusic\SaveSize\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
-            <argument name="namespace" xsi:type="string">Likemusic_SaveSize</argument>
+            <argument name="namespace" xsi:type="string">likemusic_save_size</argument>
         </arguments>
     </virtualType>
 
