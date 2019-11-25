@@ -29,4 +29,13 @@
             for="Likemusic\SaveSize\Api\Model\Session\ManagerInterface"
             type="Likemusic\SaveSize\Model\Session\Manager"/>
 
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="saved-size-attribute" xsi:type="string">Likemusic\SaveSize\CustomerData\SavedSizeAttribute</item>
+            </argument>
+        </arguments>
+    </type>
+
+
 </config>

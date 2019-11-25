@@ -3,7 +3,17 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Likemusic\SaveSize\Block\SavedSizeAttribute" name="Likemusic_SaveSize.SavedSizeAttribute" cacheable="false" />
+            <block class="Likemusic\SaveSize\Block\SavedSizeAttribute" name="Likemusic_SaveSize.SavedSizeAttribute">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="saved-size-attribute" xsi:type="array">
+                                <item name="component" xsi:type="string">Likemusic_SaveSize/js/view/saved-size-attribute</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

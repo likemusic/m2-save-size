@@ -8,8 +8,6 @@ use Likemusic\SaveSize\ViewModel\SavedSizeAttribute as SavedSizeAttributeViewMod
 
 class SavedSizeAttribute extends Template
 {
-    protected $_isScopePrivate = true;
-
     protected $_template = 'Likemusic_SaveSize::saved-size-attribute.phtml';
 
     /** @var  */
