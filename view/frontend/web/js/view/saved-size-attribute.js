@@ -4,42 +4,36 @@ define([
 ], function ($, customerData) {
     'use strict';
 
+    var widgetName = 'mage-SwatchRenderer';
+    var sectionName = 'saved-size-attribute';
+
     function onSectionLoaded(sections) {
-        var section = sections['saved-size-attribute'];
+        var section = sections[sectionName];
+
+        var valueId = section['value_id'];
+
+        if (!valueId) {
+            return;
+        }
 
         var attributeCode = section['attribute_code'];
-        var valueId = section['value_id'];
 
         var selectedAttributes = {};
         selectedAttributes[attributeCode] = valueId;
 
-        setSwatchersAttributes(selectedAttributes);
+        setSwatchesAttributes(selectedAttributes);
     }
 
-    function setSwatchersAttributes(selectedAttributes) {
-        var renderers = $(':mage-SwatchRenderer');
+    function setSwatchesAttributes(selectedAttributes) {
+        var renderers = $(':' + widgetNames);
+
         renderers.each(function (index, renderer) {
-            var a = 1;
-            // $(renderer).SwatchRenderer('_EmulateSelected', selectedAttributes);
-            var control = $(renderer).data('mage-SwatchRenderer');
+            var control = $(renderer).data(widgetName);
             control._EmulateSelected(selectedAttributes);
         })
     }
 
-    return function() {
-        customerData.reload(['saved-size-attribute']).done(onSectionLoaded);
+    return function () {
+        customerData.reload([sectionName]).done(onSectionLoaded);
     };
-
-    // customerData.reload(['saved-size-attribute']).done(onSectionLoaded);
-
-/*
-    return Component.extend({
-        initialize: function () {
-            this._super();
-            customerData.reload(['saved-size-attribute']).done(onSectionLoaded);
-            // customerData.reload(['saved-size-attribute']);
-            this['savedSizeAttribute'] = customerData.get('saved-size-attribute');
-        }
-    });
-*/
 });

@@ -21,14 +21,6 @@
                 type="Likemusic\SaveSize\Plugin\Magento\CatalogSearch\Model\Layer\Filter\AttributePlugin"/>
     </type>
 
-    <preference
-            for="Likemusic\SaveSize\Api\Model\Config\ProviderInterface"
-            type="Likemusic\SaveSize\Model\Config\Provider"/>
-
-    <preference
-            for="Likemusic\SaveSize\Api\Model\Session\ManagerInterface"
-            type="Likemusic\SaveSize\Model\Session\Manager"/>
-
     <type name="Magento\Customer\CustomerData\SectionPoolInterface">
         <arguments>
             <argument name="sectionSourceMap" xsi:type="array">
@@ -37,5 +29,12 @@
         </arguments>
     </type>
 
+    <preference
+            for="Likemusic\SaveSize\Api\Model\Config\ProviderInterface"
+            type="Likemusic\SaveSize\Model\Config\Provider"/>
+
+    <preference
+            for="Likemusic\SaveSize\Api\Model\Session\ManagerInterface"
+            type="Likemusic\SaveSize\Model\Session\Manager"/>
 
 </config>

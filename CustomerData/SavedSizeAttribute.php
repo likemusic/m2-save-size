@@ -8,6 +8,9 @@ use Magento\Customer\CustomerData\SectionSourceInterface;
 
 class SavedSizeAttribute implements SectionSourceInterface
 {
+    const KEY_ATTRIBUTE_CODE = 'attribute_code';
+    const KEY_VALUE_ID = 'value_id';
+
     /** @var SessionManagerInterface */
     private $sessionManager;
 
@@ -33,8 +36,8 @@ class SavedSizeAttribute implements SectionSourceInterface
         $sizeAttributeValueId = $this->getSavedAttributeValueId();
 
         return [
-            'attribute_code' => $sizeAttributeCode,
-            'value_id' => $sizeAttributeValueId
+            self::KEY_ATTRIBUTE_CODE => $sizeAttributeCode,
+            self::KEY_VALUE_ID => $sizeAttributeValueId
         ];
     }
 
