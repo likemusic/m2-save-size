@@ -24,8 +24,8 @@
             type="Likemusic\SaveSize\Model\Config\Provider"/>
 
     <preference
-            for="Likemusic\SaveSize\Api\Model\HttpContext\UpdaterInterface"
-            type="Likemusic\SaveSize\Model\HttpContext\Updater"/>
+            for="Likemusic\SaveSize\Api\Model\HttpContext\ManagerInterface"
+            type="Likemusic\SaveSize\Model\HttpContext\Manager"/>
 
     <!-- Plugin for attribute filter -->
     <type name="Magento\CatalogSearch\Model\Layer\Filter\Attribute">
@@ -39,6 +39,12 @@
                 <item name="saved-size-attribute" xsi:type="string">Likemusic\SaveSize\CustomerData\SavedSizeAttribute</item>
             </argument>
         </arguments>
+    </type>
+
+
+    <type name="Magento\Framework\App\Action\AbstractAction">
+        <plugin name="likemusic-save-size-app-action-dispatchController-context-plugin"
+                type="Likemusic\SaveSize\Plugin\Magento\Framework\App\Action\AbstractActionPlugin"/>
     </type>
 
 </config>

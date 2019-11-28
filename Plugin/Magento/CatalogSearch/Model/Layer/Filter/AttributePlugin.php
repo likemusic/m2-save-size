@@ -3,7 +3,7 @@
 namespace Likemusic\SaveSize\Plugin\Magento\CatalogSearch\Model\Layer\Filter;
 
 use Likemusic\SaveSize\Api\Model\Config\ProviderInterface as ConfigProviderInterface;
-use Likemusic\SaveSize\Api\Model\HttpContext\UpdaterInterface as HttpContextUpdaterInterface;
+use Likemusic\SaveSize\Api\Model\HttpContext\ManagerInterface as HttpContextUpdaterInterface;
 use Likemusic\SaveSize\Api\Model\Session\ManagerInterface as SessionManagerInterface;
 use Magento\CatalogSearch\Model\Layer\Filter\Attribute as AttributeFilter;
 use Magento\Framework\App\RequestInterface;
@@ -82,6 +82,7 @@ class AttributePlugin
 
         $this->unsetSessionSizeAttributeValueId();
         $this->unsetRequestValue($subject, $request);
+        $this->unsetHttpContext();
 
         return null;
     }
@@ -114,6 +115,11 @@ class AttributePlugin
         if ($request instanceof Request) {
             $request->setQueryValue($requestParamName, null);
         }
+    }
+
+    private function unsetHttpContext()
+    {
+        $this->httpContextUpdater->unset();
     }
 
     public function afterApply(AttributeFilter $subject, AttributeFilter $result, RequestInterface $request)
@@ -152,7 +158,7 @@ class AttributePlugin
 
     private function updateHttpContext($attributeValue)
     {
-        $this->httpContextUpdater->update($attributeValue);
+        $this->httpContextUpdater->set($attributeValue);
     }
 
     private function isSessionStoredSizeExists()
