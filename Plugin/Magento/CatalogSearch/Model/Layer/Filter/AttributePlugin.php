@@ -8,6 +8,7 @@ use Likemusic\SaveSize\Api\Model\Session\ManagerInterface as SessionManagerInter
 use Magento\CatalogSearch\Model\Layer\Filter\Attribute as AttributeFilter;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\PhpEnvironment\Request;
+use Likemusic\SaveSize\Api\Model\Session\ManagerInterfaceFactory;
 
 class AttributePlugin
 {
@@ -22,15 +23,20 @@ class AttributePlugin
     /** @var HttpContextUpdaterInterface */
     private $httpContextUpdater;
 
+    /** @var ManagerInterfaceFactory\ */
+    private $managerFactory;
+
     public function __construct(
         ConfigProviderInterface $configProvider,
         SessionManagerInterface $sessionManager,
-        HttpContextUpdaterInterface $httpContextUpdater
+        HttpContextUpdaterInterface $httpContextUpdater,
+        ManagerInterfaceFactory $managerFactory
     )
     {
         $this->configProvider = $configProvider;
         $this->sessionManager = $sessionManager;
         $this->httpContextUpdater = $httpContextUpdater;
+        $this->managerFactory = $managerFactory;
     }
 
     public function afterGetResetValue(AttributeFilter $subject, $result)
@@ -153,7 +159,13 @@ class AttributePlugin
 
     private function setSessionSizeValueId(int $attributeValueId)
     {
-        $this->sessionManager->setSizeValueId($attributeValueId);
+        $sessionManager = $this->getSessionManager();
+        $sessionManager->setSizeValueId($attributeValueId);
+    }
+
+    private function getSessionManager()
+    {
+        return $this->managerFactory->create();
     }
 
     private function updateHttpContext($attributeValue)

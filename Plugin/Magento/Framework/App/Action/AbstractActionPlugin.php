@@ -40,12 +40,22 @@ class AbstractActionPlugin
     public function beforeDispatch(AbstractAction $subject, RequestInterface $request)
     {
         $savedSizeAttributeValueId = $this->getSessionSizeAttributeValueId();
-        $this->setHttpContextValue($savedSizeAttributeValueId);
+
+        if ($savedSizeAttributeValueId !== null) {
+            $this->setHttpContextValue($savedSizeAttributeValueId);
+        } else {
+            $this->setHttpContextDefaultValue();
+        }
     }
 
     private function setHttpContextValue($sizeAttributeValueId)
     {
         $this->httpContextManager->set($sizeAttributeValueId);
+    }
+
+    private function setHttpContextDefaultValue()
+    {
+        $this->httpContextManager->setDefault();
     }
 
     private function getSessionSizeAttributeValueId()

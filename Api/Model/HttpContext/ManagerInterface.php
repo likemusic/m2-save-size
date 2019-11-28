@@ -6,4 +6,5 @@ interface ManagerInterface
 {
     public function set($attributeValue);
     public function unset();
+    public function setDefault();
 }
