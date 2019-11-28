@@ -9,6 +9,7 @@ class Manager implements ManagerInterface
 {
     const CONTEXT_KEY = 'lm_ss_size';
     const DEFAULT_VALUE = 0;
+    const DEFAULT_NOT_SET = -1;
 
     private $httpContext;
 
@@ -27,8 +28,8 @@ class Manager implements ManagerInterface
         $this->httpContext->unsValue(self::CONTEXT_KEY);
     }
 
-    public function setDefault()
+    public function setDefaultNotSetValue()
     {
-        $this->set(self::DEFAULT_VALUE);
+        $this->set(self::DEFAULT_NOT_SET);
     }
 }

@@ -26,6 +26,8 @@ class AttributePlugin
     /** @var ManagerInterfaceFactory\ */
     private $managerFactory;
 
+    private $isNested = false;
+
     public function __construct(
         ConfigProviderInterface $configProvider,
         SessionManagerInterface $sessionManager,
@@ -125,7 +127,7 @@ class AttributePlugin
 
     private function unsetHttpContext()
     {
-        $this->httpContextUpdater->unset();
+        $this->httpContextUpdater->setDefaultNotSetValue();
     }
 
     public function afterApply(AttributeFilter $subject, AttributeFilter $result, RequestInterface $request)
@@ -135,9 +137,11 @@ class AttributePlugin
         }
 
         if ($this->isFilterUsedInRequest($subject, $request)) {
-            $attributeValue = $this->getAttributeFilterValueByRequest($subject, $request);
-            $this->setSessionSizeValueId($attributeValue);
-            $this->updateHttpContext($attributeValue);
+            if (!$this->isNested) {
+                $attributeValue = $this->getAttributeFilterValueByRequest($subject, $request);
+                $this->setSessionSizeValueId($attributeValue);
+                $this->updateHttpContext($attributeValue);
+            }
         } elseif ($this->isSessionStoredSizeExists()) {
             $attributeValue = $this->getSessionSizeValueId();
             $this->applyFilterBySessionStoredSize($subject, $request, $attributeValue);

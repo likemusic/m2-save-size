@@ -44,7 +44,7 @@ class AbstractActionPlugin
         if ($savedSizeAttributeValueId !== null) {
             $this->setHttpContextValue($savedSizeAttributeValueId);
         } else {
-            $this->setHttpContextDefaultValue();
+            $this->setHttpContextDefaultNotSetValue();
         }
     }
 
@@ -53,9 +53,9 @@ class AbstractActionPlugin
         $this->httpContextManager->set($sizeAttributeValueId);
     }
 
-    private function setHttpContextDefaultValue()
+    private function setHttpContextDefaultNotSetValue()
     {
-        $this->httpContextManager->setDefault();
+        $this->httpContextManager->setDefaultNotSetValue();
     }
 
     private function getSessionSizeAttributeValueId()
