@@ -3,6 +3,7 @@
 namespace Likemusic\SaveSize\Plugin\Magento\CatalogSearch\Model\Layer\Filter;
 
 use Likemusic\SaveSize\Api\Model\Config\ProviderInterface as ConfigProviderInterface;
+use Likemusic\SaveSize\Api\Model\HttpContext\UpdaterInterface as HttpContextUpdaterInterface;
 use Likemusic\SaveSize\Api\Model\Session\ManagerInterface as SessionManagerInterface;
 use Magento\CatalogSearch\Model\Layer\Filter\Attribute as AttributeFilter;
 use Magento\Framework\App\RequestInterface;
@@ -18,13 +19,18 @@ class AttributePlugin
     /** @var SessionManagerInterface */
     private $sessionManager;
 
+    /** @var HttpContextUpdaterInterface */
+    private $httpContextUpdater;
+
     public function __construct(
         ConfigProviderInterface $configProvider,
-        SessionManagerInterface $sessionManager
+        SessionManagerInterface $sessionManager,
+        HttpContextUpdaterInterface $httpContextUpdater
     )
     {
         $this->configProvider = $configProvider;
         $this->sessionManager = $sessionManager;
+        $this->httpContextUpdater = $httpContextUpdater;
     }
 
     public function afterGetResetValue(AttributeFilter $subject, $result)
@@ -117,9 +123,12 @@ class AttributePlugin
         }
 
         if ($this->isFilterUsedInRequest($subject, $request)) {
-            $this->updateSessionStoredSize($subject, $request);
+            $attributeValue = $this->getAttributeFilterValueByRequest($subject, $request);
+            $this->setSessionSizeValueId($attributeValue);
+            $this->updateHttpContext($attributeValue);
         } elseif ($this->isSessionStoredSizeExists()) {
-            $this->applyFilterBySessionStoredSize($subject, $request);
+            $attributeValue = $this->getSessionSizeValueId();
+            $this->applyFilterBySessionStoredSize($subject, $request, $attributeValue);
         }
 
         return $result;
@@ -136,16 +145,14 @@ class AttributePlugin
         return true;
     }
 
-    private function updateSessionStoredSize(AttributeFilter $attributeFilter, RequestInterface $request)
-    {
-        $attributeValue = $this->getAttributeFilterValueByRequest($attributeFilter, $request);
-
-        $this->setSessionSizeValueId($attributeValue);
-    }
-
     private function setSessionSizeValueId(int $attributeValueId)
     {
         $this->sessionManager->setSizeValueId($attributeValueId);
+    }
+
+    private function updateHttpContext($attributeValue)
+    {
+        $this->httpContextUpdater->update($attributeValue);
     }
 
     private function isSessionStoredSizeExists()
@@ -160,9 +167,11 @@ class AttributePlugin
         return $this->sessionManager->getSizeValueId();
     }
 
-    private function applyFilterBySessionStoredSize(AttributeFilter $attributeFilter, RequestInterface $request)
+    private function applyFilterBySessionStoredSize(
+        AttributeFilter $attributeFilter,
+        RequestInterface $request,
+        $attributeValue)
     {
-        $attributeValue = $this->getSessionSizeValueId();
         $requestVar = $attributeFilter->getRequestVar();
 
         $requestClone = clone $request;
