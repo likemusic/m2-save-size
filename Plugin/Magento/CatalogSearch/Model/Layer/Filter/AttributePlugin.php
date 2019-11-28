@@ -5,10 +5,10 @@ namespace Likemusic\SaveSize\Plugin\Magento\CatalogSearch\Model\Layer\Filter;
 use Likemusic\SaveSize\Api\Model\Config\ProviderInterface as ConfigProviderInterface;
 use Likemusic\SaveSize\Api\Model\HttpContext\ManagerInterface as HttpContextUpdaterInterface;
 use Likemusic\SaveSize\Api\Model\Session\ManagerInterface as SessionManagerInterface;
+use Likemusic\SaveSize\Api\Model\Session\ManagerInterfaceFactory;
 use Magento\CatalogSearch\Model\Layer\Filter\Attribute as AttributeFilter;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\PhpEnvironment\Request;
-use Likemusic\SaveSize\Api\Model\Session\ManagerInterfaceFactory;
 
 class AttributePlugin
 {
@@ -30,13 +30,11 @@ class AttributePlugin
 
     public function __construct(
         ConfigProviderInterface $configProvider,
-        SessionManagerInterface $sessionManager,
         HttpContextUpdaterInterface $httpContextUpdater,
         ManagerInterfaceFactory $managerFactory
     )
     {
         $this->configProvider = $configProvider;
-        $this->sessionManager = $sessionManager;
         $this->httpContextUpdater = $httpContextUpdater;
         $this->managerFactory = $managerFactory;
     }
@@ -111,7 +109,13 @@ class AttributePlugin
 
     private function unsetSessionSizeAttributeValueId()
     {
-        $this->sessionManager->unsetSizeValueId();
+        $sessionManager = $this->getSessionManager();
+        $sessionManager->unsetSizeValueId();
+    }
+
+    private function getSessionManager()
+    {
+        return $this->managerFactory->create();
     }
 
     private function unsetRequestValue(AttributeFilter $subject, RequestInterface $request)
@@ -167,11 +171,6 @@ class AttributePlugin
         $sessionManager->setSizeValueId($attributeValueId);
     }
 
-    private function getSessionManager()
-    {
-        return $this->managerFactory->create();
-    }
-
     private function updateHttpContext($attributeValue)
     {
         $this->httpContextUpdater->set($attributeValue);
@@ -186,7 +185,9 @@ class AttributePlugin
 
     private function getSessionSizeValueId()
     {
-        return $this->sessionManager->getSizeValueId();
+        $sessionManager = $this->getSessionManager();
+
+        return $sessionManager->getSizeValueId();
     }
 
     private function applyFilterBySessionStoredSize(
